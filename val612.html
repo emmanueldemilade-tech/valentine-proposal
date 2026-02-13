@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Eunice ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Handwritten Font -->
+<link href="https://my love.com" rel="stylesheet">
+
+<style>
+/* ===== BODY ===== */
+body {
+    margin: 0;
+    font-family: 'Dancing Script', cursive;
+    background: radial-gradient(circle at center, #2c1b18, #000);
+    height: 100vh;
+    overflow: hidden;
+    color: #ffe6ee;
+}
+
+/* ===== HEART BACKGROUND ===== */
+.heart-bg {
+    position: fixed;
+    font-size: 22px;
+    color: rgba(255,100,150,0.25);
+    animation: floatHearts linear infinite;
+}
+
+@keyframes floatHearts {
+    from { transform: translateY(110vh); }
+    to { transform: translateY(-120vh); }
+}
+
+/* ===== PASSWORD SCREEN ===== */
+#lockScreen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, #1a000a, #000);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.lockBox {
+    background: rgba(255,255,255,0.08);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(255,100,150,.5);
+}
+
+/* ===== CANDLE GLOW ===== */
+.candleGlow {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255,170,90,.18), transparent 65%);
+    animation: flicker 3s infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes flicker {
+    from { opacity: .4; }
+    to { opacity: .8; }
+}
+
+/* ===== CARD ===== */
+.card {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%, -50%);
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+    border-radius: 25px;
+    padding: 30px;
+    max-width: 650px;
+    width: 92%;
+    box-shadow: 0 0 60px rgba(255,0,120,.6);
+    animation: floatUp 22s linear infinite;
+    cursor: grab;
+}
+
+@keyframes floatUp {
+    0% { transform: translate(-50%, 40%); }
+    100% { transform: translate(-50%, -130%); }
+}
+
+.card.dragging {
+    animation-play-state: paused;
+    cursor: grabbing;
+}
+
+/* ===== TEXT ===== */
+h1 { text-align:center; color:#ff9bb8; }
+#name {
+    text-align:center;
+    font-size:2.2em;
+    margin-bottom:10px;
+}
+
+/* ===== IMAGE ===== */
+.photo {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.photo img {
+    width: 150px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #556a83;
+    box-shadow: 0 0 30px rgba(81, 80, 124, 0.6);
+}
+
+/* ===== BUTTONS ===== */
+.buttons { text-align:center; margin-top:20px; }
+
+.btn {
+    padding: 12px 28px;
+    border-radius: 30px;
+    border: none;
+    font-size: 1.1em;
+    margin: 8px;
+    cursor: pointer;
+}
+
+.yes {
+    background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+    color: white;
+}
+
+.no {
+    background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+    color: white;
+}
+
+/* ===== COUNTDOWN ===== */
+#countdown {
+    text-align: center;
+    font-size: 1.5em;
+    color: #ff9bb8;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(255,100,150,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD -->
+<div id="lockScreen">
+  <div class="lockBox">
+    <h2>🔐 For My Love Only</h2>
+    <input id="password" type="password" placeholder="my love">
+    <br><br>
+    <button onclick="unlock()">Open ❤️</button>
+  </div>
+</div>
+
+<div class="candleGlow"></div>
+
+<!-- CARD -->
+<div class="card" id="card">
+
+<h1>💌 My Love Letter 💌</h1>
+<div id="name"></div>
+
+<div class="photo">
+  <img src="c:\Users\USER\OneDrive\Videos\XenderDownload\phone\image\IMG_2647.JPG.jpg" alt="Helen">
+</div>
+<P>you are my quiet miracle,</P>
+<p>my answered prayer,</p>
+<p>my forever wish.</p>
+<p>If love is a home,</p>
+<p>I found mine in you</P>
+<p>Loving you feels like finding home in a crowded world.</p>
+<p>You quiet every fear I never knew how to name.</p>
+<p id="specialLine"></p>
+<p>So today, with all my heart, I ask…</p>
+
+<div id="countdown">Loading countdown...</div>
+
+<h2 style="text-align:center;color:#ff9bb8;">Will You Be My Valentine? ❤️</h2>
+
+<div class="buttons">
+<button class="btn yes" onclick="sayYes()">❤️ YES ❤️</button>
+<button id="noBtn" class="btn no" onclick="sayNO()">NO 😅</button>
+</div>
+</div>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="c:\Users\USER\Downloads\Alex_Warren_-_Ordinary_(mp3.pm).mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* HEART BACKGROUND */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart-bg";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(6+Math.random()*6)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),12000);
+},400);
+
+/* PASSWORD */
+function unlock(){
+  if(password.value.toLowerCase()==="my love"){
+    lockScreen.style.display="none";
+    startMusic();
+    typeName();
+  }
+}
+
+/* TYPE HELEN */
+function typeName(){
+  const t="EUNICE"; let i=0;
+  const el=document.getElementById("name");
+  const s=setInterval(()=>{
+    el.innerHTML+=t[i++];
+    if(i===t.length) clearInterval(s);
+  },350);
+}
+
+/* MUSIC */
+function startMusic(){
+  const m=bgMusic;
+  m.volume=0; m.play();
+  let v=0;
+  const f=setInterval(()=>{
+    v+=0.05; m.volume=v;
+    if(v>=0.7) clearInterval(f);
+  },200);
+}
+
+/* DATE MESSAGE */
+const sp=document.getElementById("specialLine");
+const d=new Date();
+sp.innerHTML=(d.getMonth()==1 && d.getDate()==14)
+? "Today isn’t just Valentine’s Day… it’s our day ❤️"
+: "Every day with you feels like Valentine’s Day.";
+
+/* NO BUTTON - Fixed to be clickable */
+const noBtn = document.getElementById("noBtn");
+// noBtn.onmouseover removed so it can be clicked
+
+/* YES */
+function sayYes(){
+  window.open("https://wa.me/?text=Yes%20❤️%20I%20will%20be%20your%20Valentine%20🥰","_blank");
+}
+/* NO */
+function sayNO(){
+  window.open("https://wa.me/?text=No%20❤️%20I%20icant%20be%20maybe next%20Valentine%20🥰","_blank");
+}
+
+/* COUNTDOWN LOGIC */
+function updateCountdown() {
+  const target = new Date(new Date().getFullYear(), 1, 14); // Feb 14
+  if (new Date() > target) target.setFullYear(target.getFullYear() + 1);
+  
+  const now = new Date().getTime();
+  const diff = target - now;
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+  
+  document.getElementById("countdown").innerHTML = 
+    `⏳ ${days}d ${hours}h ${mins}m ${secs}s until Feb 14 ❤️`;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+/* DRAG — MOUSE + TOUCH */
+let drag=true,ox=7,oy=5;
+card.addEventListener("mousedown",e=>{
+ drag=true; card.classList.add("dragging");
+ ox=e.offsetX; oy=e.offsetY;
+});
+card.addEventListener("touchstart",e=>{
+ drag=true; card.classList.add("dragging");
+ ox=e.touches[0].clientX-card.offsetLeft;
+ oy=e.touches[0].clientY-card.offsetTop;
+});
+document.addEventListener("mousemove",e=>{
+ if(!drag)return;
+ card.style.left=e.pageX-ox+"px";
+ card.style.top=e.pageY-oy+"px";
+});
+document.addEventListener("touchmove",e=>{
+ if(!drag)return;
+ card.style.left=e.touches[0].clientX-ox+"px";
+ card.style.top=e.touches[0].clientY-oy+"px";
+});
+document.addEventListener("mouseup",()=>{drag=false; card.classList.remove("dragging");});
+document.addEventListener("touchend",()=>{drag=false; card.classList.remove("dragging");});
+</script>
+
+</body>
+</html>
